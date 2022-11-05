@@ -50,6 +50,12 @@ npx create-expo-app <project-name>
 
 # Init application and configure Typescript (Add tsconfig.json empty file)
 npx expo start
+
+# Expo account login
+npx expo login
+
+# Verify which expo account has logged
+npx expo whoami
 ```
 
 <br>
