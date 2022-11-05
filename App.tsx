@@ -6,7 +6,10 @@ import {
   Roboto_700Bold,
 } from "@expo-google-fonts/roboto";
 
+import { Find } from "./src/screens/Find";
 import { Loading } from "./src/components/Loading";
+import { New } from "./src/screens/New";
+import { Pools } from "./src/screens/Pools";
 import { SignIn } from "./src/screens/SignIn";
 
 import { AuthContextProvider } from "./src/contexts/AuthContext";
@@ -28,7 +31,7 @@ export default function App() {
           barStyle="light-content"
           translucent
         />
-        {fontsLoaded ? <SignIn /> : <Loading />}
+        {fontsLoaded ? <Pools /> : <Loading />}
       </AuthContextProvider>
     </NativeBaseProvider>
   );
