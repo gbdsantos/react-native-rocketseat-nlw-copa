@@ -9,8 +9,6 @@ import Logo from "../assets/logo.svg";
 export function SignIn() {
   const { signIn, user } = useAuth();
 
-  console.log("[CONTEXT-DATA]: ", user);
-
   return (
     <Center flex={1} bgColor="gray.900" p={7}>
       <Logo height={40} width={212} />

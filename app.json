@@ -2,6 +2,7 @@
   "expo": {
     "name": "react-native-rocketseat-nlw-copa",
     "slug": "react-native-rocketseat-nlw-copa",
+    "scheme": "react-native-rockeseat-nlw-copa",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
