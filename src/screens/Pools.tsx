@@ -74,7 +74,12 @@ export function Pools() {
             keyExtractor={item => item.id}
             ListEmptyComponent={() => <EmptyPoolList />}
             px={5}
-            renderItem={({ item }) => <PoolCard data={item} />}
+            renderItem={({ item }) => (
+              <PoolCard
+                data={item}
+                onPress={() => navigate("details", { id: item.id })}
+              />
+            )}
             showsVerticalScrollIndicator={false}
           />
       }
