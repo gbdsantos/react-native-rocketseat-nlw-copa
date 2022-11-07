@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 import { FlatList, Icon, useToast, VStack } from "native-base";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import { Button } from "../components/Button";
 import { EmptyPoolList } from "../components/EmptyPoolList";
@@ -41,9 +41,9 @@ export function Pools() {
     }
   }
 
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     fetchPools();
-  }, [])
+  }, []));
 
   return (
     <VStack bgColor="gray.900" flex={1}>
