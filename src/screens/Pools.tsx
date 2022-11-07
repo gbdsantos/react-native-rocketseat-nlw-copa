@@ -1,13 +1,49 @@
-import { Icon, VStack } from "native-base";
+import { useEffect, useState } from "react";
+
+import { FlatList, Icon, useToast, VStack } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 
 import { Button } from "../components/Button";
+import { EmptyPoolList } from "../components/EmptyPoolList";
 import { Header } from "../components/Header";
+import { Loading } from "../components/Loading";
+import { PoolCard, PoolCardProps } from "../components/PoolCard";
 
 import { Octicons } from "@expo/vector-icons";
 
+import { api } from "../services/api";
+
 export function Pools() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [polls, setPolls] = useState<PoolCardProps[]>([]);
+
   const { navigate } = useNavigation();
+  const toast = useToast();
+
+  async function fetchPools() {
+    try {
+      setIsLoading(true);
+      const response = await api.get('pools');
+      setPolls(response.data.pools);
+
+    } catch (error) {
+      console.log(error);
+      toast.show({
+        bgColor: "red.500",
+        placement: "bottom",
+        title: "Não foi possível carregar os bolões"
+      });
+
+      throw error;
+
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchPools();
+  }, [])
 
   return (
     <VStack bgColor="gray.900" flex={1}>
@@ -29,6 +65,19 @@ export function Pools() {
           title="BUSCAR BOLÃO POR CÓDIGO"
         />
       </VStack>
+
+      {
+        isLoading ? <Loading /> :
+          <FlatList
+            _contentContainerStyle={{ pb: 10 }}
+            data={polls}
+            keyExtractor={item => item.id}
+            ListEmptyComponent={() => <EmptyPoolList />}
+            px={5}
+            renderItem={({ item }) => <PoolCard data={item} />}
+            showsVerticalScrollIndicator={false}
+          />
+      }
     </VStack>
   );
 }
