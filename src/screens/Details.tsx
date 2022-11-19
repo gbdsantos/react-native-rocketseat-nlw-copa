@@ -5,6 +5,7 @@ import { HStack, useToast, VStack } from "native-base";
 import { useRoute } from "@react-navigation/native";
 
 import { EmptyMyPoolList } from "../components/EmptyMyPoolList";
+import { Guesses } from "../components/Guesses";
 import { Header } from "../components/Header";
 import { Loading } from "../components/Loading";
 import { Option } from "../components/Option";
@@ -90,6 +91,8 @@ export function Details() {
                 title="Ranking do grupo"
               />
             </HStack>
+
+            <Guesses poolId={pollDetails.id} />
           </VStack>
           : <EmptyMyPoolList code={pollDetails.code} />
       }
