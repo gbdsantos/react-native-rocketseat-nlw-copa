@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { Box, FlatList, useToast } from "native-base";
 
+import { EmptyMyPoolList } from "./EmptyMyPoolList";
 import { Game, GameProps } from "../components/Game";
 import { Loading } from "./Loading";
 
@@ -9,9 +10,10 @@ import { api } from "../services/api";
 
 interface Props {
   poolId: string;
+  code: string;
 }
 
-export function Guesses({ poolId }: Props) {
+export function Guesses({ code, poolId }: Props) {
   const [isLoading, setIsLoading] = useState(true);
   const [games, setGames] = useState<GameProps[]>([]);
   const [firstTeamPoints, setFirstTeamPoints] = useState("");
@@ -24,7 +26,7 @@ export function Guesses({ poolId }: Props) {
       setIsLoading(true);
 
       const response = await api.get(`/pools/${poolId}/games`);
-      setGames(response.data);
+      setGames(response.data.games);
 
     } catch (error) {
       console.log(error);
@@ -79,6 +81,8 @@ export function Guesses({ poolId }: Props) {
 
   useEffect(() => {
     fetchGames();
+
+    console.log(games);
   }, [poolId]);
 
   if(isLoading) {
@@ -87,16 +91,18 @@ export function Guesses({ poolId }: Props) {
 
   return (
     <FlatList
-      data={games}
-      keyExtractor={item => item.id}
-      renderItem={({item}) => (
-        <Game
-          data={item}
-          onGuessConfirm={() => handleGuessConfirm(item.id)}
-          setFirstTeamPoints={setFirstTeamPoints}
-          setSecondTeamPoints={setSecondTeamPoints}
-        />
+    data={games}
+    keyExtractor={item => item.id}
+    renderItem={({item}) => (
+      <Game
+      data={item}
+      onGuessConfirm={() => handleGuessConfirm(item.id)}
+      setFirstTeamPoints={setFirstTeamPoints}
+      setSecondTeamPoints={setSecondTeamPoints}
+      />
       )}
+      _contentContainerStyle={{ pb: 10 }}
+      ListEmptyComponent={() => <EmptyMyPoolList code={code} /> }
     />
   );
 }
